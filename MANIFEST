@@ -4,4 +4,5 @@ INSTALL
 MANIFEST
 Makefile.PL
 Semicolons.pm
-test.pl
+t/Semicolons.t
+t/Alternate.t

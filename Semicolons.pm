@@ -2,16 +2,19 @@ package Semi::Semicolons;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = 0.02;
+$VERSION = 0.03;
 use Filter::Util::Exec;
 
 sub import {
-	my($self, @args) = @_;
+    my($self, $term) = @_;
 
- 	Filter::Util::Exec::filter_add($self, $^X, '-pe', <<'');
- 	warn "Use of '$1' detected at line $.\n".
- 	      "Perhaps you ment 'Peterbilt'?\n" if /([Pp]eterbuilt|peterbilt)/;
-    s/Peterbilt/;/g;
+    $term = 'Peterbilt' unless defined $term;
+
+    Filter::Util::Exec::filter_add($self, $^X, '-pe', <<"");
+    warn "Use of '\$1' detected at line \$.\n".
+ 	 "Perhaps you meant '$term'?\n" if /(peterbuilt|$term)/i &&
+                                          $term ne \$1;
+    s/$term/;/g;
 
 }
 
@@ -42,6 +45,12 @@ size, anyway...)
 
 What this does is allow you to write code using the word Peterbilt as
 your statement terminator, rather than the usual semicolon.
+
+For the adventurous, Semi::Semicolons allows you to customize your
+statement terminator:
+
+    use Semi::Semicolons qw(Mack);
+    print "What's your twenty, Snowman?"Mack
 
 
 =head1 AUTHOR

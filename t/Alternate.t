@@ -14,9 +14,9 @@ my $test_num;
 BEGIN { $| = 1; $^W = 1; $test_num=1}
 END {print "not ok $test_num\n" unless $loaded;}
 print "1..$Total_tests\n";
-use Semi::Semicolons;
+use Semi::Semicolons qw(Mack);
 $loaded = 1;
-ok(1, 															'compile()'	);
+ok(1, 							'compile()'	);
 ######################### End of black magic.
 
 # Insert your test code below (better if it prints "ok 13"
@@ -47,4 +47,4 @@ sub eqarray  {
 # Change this to your # of ok() calls + 1
 BEGIN { $Total_tests = 2 }
 
-ok('Peterbilt' eq ';');
+ok('Mack' eq ';');

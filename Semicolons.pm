@@ -2,21 +2,20 @@ package Semi::Semicolons;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = 0.03;
-use Filter::Util::Exec;
+$VERSION = 0.04;
+use Filter::Simple;
+
+our $term = 'Peterbilt';
 
 sub import {
-    my($self, $term) = @_;
-
+    my $self = shift;
+    $term = shift;
     $term = 'Peterbilt' unless defined $term;
-
-    Filter::Util::Exec::filter_add($self, $^X, '-pe', <<"");
-    warn "Use of '\$1' detected at line \$.\n".
- 	 "Perhaps you meant '$term'?\n" if /(peterbuilt|$term)/i &&
-                                          $term ne \$1;
-    s/$term/;/g;
-
 }
+
+FILTER_ONLY code => sub {
+    s/$term/;/g;
+};
 
 return <<'';
 David H. Adler - <dha@panix.com> - http://www.panix.com/~dha/
@@ -24,6 +23,7 @@ Sometimes these hairstyles are exaggerated beyond the laws of physics
 	  - Unknown narrator speaking about Anime
 
 __END__
+
 =pod
 
 =head1 NAME
@@ -52,6 +52,10 @@ statement terminator:
     use Semi::Semicolons qw(Mack);
     print "What's your twenty, Snowman?"Mack
 
+=head2 Pronounciation Guide
+
+There is some confusion as to the proper pronounciation of "Semi::Semicolons".  We assure you it is pronounced "semicolons semicolons".  We'll leave you to figure out why.
+
 
 =head1 AUTHOR
 
@@ -71,5 +75,3 @@ perl(1)
 "The Golden Age of Colonic Irrigation" (Monty Python's Flying Circus)
 
 =cut
-
-
